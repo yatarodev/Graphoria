@@ -1,0 +1,372 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 190 100% 80%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 190 100% 80%;
+
+    --primary: 190 100% 50%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 45 100% 60%;
+    --secondary-foreground: 0 0% 0%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 0%;
+
+    --border: 190 100% 30%;
+    --input: 190 100% 30%;
+    --ring: 190 100% 50%;
+
+    --radius: 0px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    image-rendering: pixelated;
+  }
+}
+
+@layer components {
+  .pixel-container {
+    @apply container mx-auto px-4 py-8;
+  }
+
+  .pixel-border {
+    @apply border-4 border-primary;
+    box-shadow: 0.5rem 0.5rem 0 rgba(0, 191, 255, 0.2);
+  }
+
+  .pixel-button {
+    @apply bg-primary text-primary-foreground px-4 py-2 transition-all duration-100;
+    image-rendering: pixelated;
+    box-shadow: 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .pixel-button:hover {
+    @apply translate-y-1 translate-x-1;
+    box-shadow: 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .pixel-button:active {
+    @apply translate-y-2 translate-x-2;
+    box-shadow: none;
+  }
+
+  .pixel-card {
+    @apply bg-card text-card-foreground p-6 border-4 border-primary;
+    box-shadow: 0.5rem 0.5rem 0 rgba(0, 191, 255, 0.2);
+  }
+
+  .terminal-text {
+    @apply font-mono text-primary;
+    text-shadow: 0 0 5px rgba(0, 191, 255, 0.7);
+    letter-spacing: 1px;
+  }
+
+  .retro-text {
+    font-family: "Press_Start_2P", monospace;
+    text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
+    letter-spacing: 1px;
+  }
+
+  .blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .glitch {
+    animation: glitch 0.3s ease-in-out;
+    position: relative;
+  }
+
+  @keyframes glitch {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-5px, 5px);
+    }
+    40% {
+      transform: translate(-5px, -5px);
+    }
+    60% {
+      transform: translate(5px, 5px);
+    }
+    80% {
+      transform: translate(5px, -5px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+
+  .scanline {
+    background: linear-gradient(to bottom, rgba(0, 191, 255, 0), rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0));
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
+    z-index: 5;
+  }
+
+  @keyframes scanline {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  /* Removed vaporwave-grid and pixel-grid styles */
+
+  .animated-grid {
+    background-size: 20px 20px;
+    background-image: linear-gradient(to right, rgba(0, 191, 255, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 191, 255, 0.15) 1px, transparent 1px);
+    animation: gridMove 8s linear infinite;
+    transition: all 0.3s ease;
+  }
+
+  @keyframes gridMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 20px 20px;
+    }
+  }
+
+  .player-orb {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #00ff00;
+    margin-right: 8px;
+    position: relative;
+  }
+
+  .player-orb::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 255, 0, 0.6) 0%, rgba(0, 255, 0, 0) 70%);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.4;
+    }
+    100% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+  }
+
+  /* Logo animations */
+  .pixelated {
+    image-rendering: pixelated;
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .hover-jiggle:hover {
+    animation: jiggle 0.5s ease-in-out;
+  }
+
+  @keyframes jiggle {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
+    25% {
+      transform: translateY(-5px) rotate(-5deg);
+    }
+    50% {
+      transform: translateY(0) rotate(5deg);
+    }
+    75% {
+      transform: translateY(-2px) rotate(-2deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0);
+    }
+  }
+
+  .sparkle-animation {
+    animation: sparkle 0.7s linear forwards;
+  }
+
+  @keyframes sparkle {
+    0% {
+      transform: scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.5) rotate(180deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Neon/LED effects */
+  .neon-text-primary {
+    color: #00bfff;
+    text-shadow: 0 0 5px rgba(0, 191, 255, 0.5), 0 0 10px rgba(0, 191, 255, 0.5), 0 0 15px rgba(0, 191, 255, 0.5), 0 0
+      20px rgba(0, 191, 255, 0.5);
+  }
+
+  .neon-text-secondary {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.5), 0 0
+      20px rgba(255, 215, 0, 0.5);
+  }
+
+  .led-text {
+    color: #e0e0e0;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
+  }
+
+  .neon-box {
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5), 0 0 10px rgba(0, 191, 255, 0.3), inset 0 0 5px rgba(0, 191, 255, 0.2);
+  }
+
+  .neon-border {
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.7);
+  }
+
+  .neon-border-subtle {
+    box-shadow: 0 0 3px rgba(0, 191, 255, 0.4);
+  }
+
+  .neon-button-primary {
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.7), 0 0 10px rgba(0, 191, 255, 0.4), inset 0 0 2px rgba(0, 191, 255, 0.3);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  }
+
+  .neon-button-primary:hover {
+    box-shadow: 0 0 8px rgba(0, 191, 255, 0.9), 0 0 15px rgba(0, 191, 255, 0.6), inset 0 0 3px rgba(0, 191, 255, 0.5);
+  }
+
+  .neon-button-secondary {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.4), inset 0 0 2px rgba(255, 215, 0, 0.3);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  }
+
+  .neon-button-secondary:hover {
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.9), 0 0 15px rgba(255, 215, 0, 0.6), inset 0 0 3px rgba(255, 215, 0, 0.5);
+  }
+
+  .neon-badge {
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.7), 0 0 10px rgba(0, 191, 255, 0.4);
+  }
+
+  .neon-active-tab {
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.7), 0 0 10px rgba(0, 191, 255, 0.4);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5), 0 0 20px rgba(0, 191, 255, 0.3), 0 0 30px rgba(0, 191, 255, 0.1);
+  }
+
+  /* Additional neon effects */
+  .neon-icon {
+    filter: drop-shadow(0 0 3px rgba(0, 191, 255, 0.7));
+  }
+
+  .neon-text-flicker {
+    animation: textFlicker 3s infinite alternate;
+  }
+
+  @keyframes textFlicker {
+    0%,
+    19.999%,
+    22%,
+    62.999%,
+    64%,
+    64.999%,
+    70%,
+    100% {
+      opacity: 1;
+      text-shadow: 0 0 5px rgba(0, 191, 255, 0.5), 0 0 10px rgba(0, 191, 255, 0.5), 0 0 15px rgba(0, 191, 255, 0.5), 0 0
+        20px rgba(0, 191, 255, 0.5);
+    }
+    20%,
+    21.999%,
+    63%,
+    63.999%,
+    65%,
+    69.999% {
+      opacity: 0.4;
+      text-shadow: none;
+    }
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite alternate;
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.7), 0 0 20px rgba(0, 191, 255, 0.4);
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.7), 0 0 20px rgba(0, 191, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.9), 0 0 30px rgba(0, 191, 255, 0.6);
+  }
+}
