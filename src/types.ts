@@ -1,0 +1,210 @@
+export type ProjectionMode = 'cartesian' | 'spherical'
+
+export type CacheMode = "use" | "renew" | "ignore"
+
+export interface RenderRequest {
+  prompt: string
+
+  // whether to use video segmentation
+  // disabled (default)
+  // firstframe: we only analyze the first frame
+  // allframes: we analyze all the frames
+  segmentation: 'disabled' | 'firstframe' | 'allframes'
+
+  // segmentation will only be executed if we have a non-empty list of actionnables
+  // actionnables are names of things like "chest", "key", "tree", "chair" etc
+  actionnables: string[]
+
+  nbFrames: number
+  nbFPS: number
+
+  nbSteps: number // min: 1, max: 50
+
+  seed: number
+
+  width: number // fixed at 1024 for now
+  height: number // fixed at 512 for now
+
+  // upscaling factor
+  // 0: no upscaling
+  // 1: no upscaling
+  // 2: 2x larger
+  // 3: 3x larger
+  // 4x: 4x larger, up to 4096x4096 (warning: a PNG of this size can be 50 Mb!)
+  upscalingFactor: number
+
+  projection: ProjectionMode
+
+  turbo: boolean
+
+  cache: CacheMode
+
+  wait: boolean // wait until the job is completed
+
+  analyze: boolean // analyze the image to generate a caption (optional)
+
+  identityImage: string // reference image for the main entity
+}
+
+export interface ImageSegment {
+  id: number
+  box: number[]
+  color: number[]
+  label: string
+  score: number 
+}
+
+export type RenderedSceneStatus =
+  | "pregenerated"
+  | "pending"
+  | "completed"
+  | "error"
+
+export interface RenderedScene {
+  renderId: string
+  status: RenderedSceneStatus
+  assetUrl: string 
+  alt: string
+  error: string
+  maskUrl: string
+  segments: ImageSegment[]
+}
+
+export interface ImageAnalysisRequest {
+  image: string // in base64
+  prompt: string
+}
+
+export interface ImageAnalysisResponse {
+  result: string
+  error?: string
+}
+
+export type GeneratedPanel = {
+  panel: number
+  instructions: string
+  speech: string
+  caption: string
+}
+
+export type GeneratedPanels = GeneratedPanel[]
+
+// LLMVendor = what the user configure in the UI (eg. a dropdown item called default server)
+// LLMEngine = the actual engine to use (eg. hugging face)
+export type LLMEngine =
+  | "INFERENCE_API"
+  | "INFERENCE_ENDPOINT"
+  | "OPENAI"
+  | "REPLICATE"
+  | "GROQ"
+  | "ANTHROPIC"
+
+export type RenderingEngine =
+  | "VIDEOCHAIN"
+  | "OPENAI"
+  | "REPLICATE"
+  | "INFERENCE_API"
+  | "INFERENCE_ENDPOINT"
+
+export type RenderingModelVendor =
+  | "SERVER"
+  | "OPENAI"
+  | "REPLICATE"
+  | "HUGGINGFACE"
+
+// LLMVendor = what the user configure in the UI (eg. a dropdown item called default server)
+// LLMEngine = the actual engine to use (eg. hugging face)
+export type LLMVendor =
+  | "SERVER"
+  | "OPENAI"
+  | "GROQ"
+  | "ANTHROPIC"
+
+export type LLMVendorConfig = {
+  vendor: LLMVendor
+  apiKey: string
+  modelId: string
+}
+
+export type LLMPredictionFunctionParams = {
+  systemPrompt: string
+  userPrompt: string
+  nbMaxNewTokens: number
+  llmVendorConfig: LLMVendorConfig
+}
+
+export type PostVisibility =
+  | "featured" // featured by admins
+  | "trending" // top trending / received more than 10 upvotes
+  | "normal" // default visibility
+
+export type Post = {
+  postId: string
+  appId: string
+  prompt: string
+  previewUrl: string
+  assetUrl: string
+  createdAt: string
+  visibility: PostVisibility
+  upvotes: number
+  downvotes: number
+}
+
+export type CreatePostResponse = {
+  success?: boolean
+  error?: string
+  post: Post
+}
+
+export type GetAppPostsResponse = {
+  success?: boolean
+  error?: string
+  posts: Post[]
+}
+
+export type GetAppPostResponse = {
+  success?: boolean
+  error?: string
+  post: Post
+}
+
+export type LayoutProps = {
+  page: number
+  nbPanels: number
+}
+
+// TODO: rename the *Model fields to better indicate if this is a LLM or RENDER mdoel
+export type Settings = {
+  renderingModelVendor: RenderingModelVendor
+  renderingUseTurbo: boolean
+  llmVendor: LLMVendor
+  huggingFaceOAuth: string
+  huggingfaceApiKey: string
+  huggingfaceInferenceApiModel: string
+  huggingfaceInferenceApiModelTrigger: string
+  huggingfaceInferenceApiFileType: string
+  replicateApiKey: string
+  replicateApiModel: string
+  replicateApiModelVersion: string
+  replicateApiModelTrigger: string
+  openaiApiKey: string
+  openaiApiModel: string
+  openaiApiLanguageModel: string
+  groqApiKey: string
+  groqApiLanguageModel: string
+  anthropicApiKey: string
+  anthropicApiLanguageModel: string
+  hasGeneratedAtLeastOnce: boolean
+  userDefinedMaxNumberOfPages: number
+}
+
+export type DynamicConfig = {
+  maxNbPages: number
+  nbPanelsPerPage: number
+  nbTotalPanelsToGenerate: number
+  oauthClientId: string
+  oauthRedirectUrl: string
+  oauthScopes: string
+  enableHuggingFaceOAuth: boolean
+  enableHuggingFaceOAuthWall: boolean
+}
