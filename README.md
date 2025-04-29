@@ -1,5 +1,6 @@
+<h1 align="center">Graphica.fun</h1>
+
 <p align="center">
-  <span style="font-size: 3em; font-weight: bold;">Graphica.fun</span><br/>
   ⚡ <em>The open-source AI engine for visual storytelling</em> ⚡
 </p>
 
