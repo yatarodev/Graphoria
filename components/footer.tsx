@@ -13,7 +13,7 @@ const Footer = () => {
               <Link href="https://x.com/tiledtogether" target="_blank" className="hover:text-primary transition-colors">
                 <Twitter size={20} className="neon-icon" />
               </Link>
-              <Link href="#" className="hover:text-primary transition-colors">
+              <Link href="https://github.com/yatarodev/tiled-together" className="hover:text-primary transition-colors">
                 <Github size={20} className="neon-icon" />
               </Link>
             </div>
